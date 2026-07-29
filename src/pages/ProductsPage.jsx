@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
-import { useProducts } from "../context/ProductsContext";
+// import { useProducts } from "../context/ProductsContext";
 import {
   filterProducts,
   getInitialQuery,
@@ -16,7 +16,8 @@ import Sidebar from "../components/Sidebar";
 import styles from "./ProductsPage.module.css";
 
 function ProductsPage() {
-  const products = useProducts();
+  // const products = useProducts();
+  const products = [];
 
   const [displayed, setDisplayed] = useState([]);
   const [search, setSearch] = useState("");
