@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { Link, useParams } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 import { SiOpenproject } from "react-icons/si";
 import { IoMdPricetag } from "react-icons/io";
 
-import { useProductDetails } from "../context/ProductsContext";
-
+import { fetchProducts } from "../features/product/productSlice";
 import Loader from "../components/Loader";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -12,7 +13,15 @@ import styles from "./DetailsPage.module.css";
 function DetailsPage() {
   const { id } = useParams();
 
-  const productDetails = useProductDetails(+id);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
+  const productDetails = useSelector((store) =>
+    store.product.products.find((i) => i.id === +id)
+  );
 
   if (!productDetails) return <Loader />;
   return (
@@ -22,12 +31,12 @@ function DetailsPage() {
         <h3>{productDetails.title}</h3>
         <p className={styles.description}>{productDetails.description}</p>
         <p className={styles.category}>
-          <SiOpenproject color="#fd5e42"/>
+          <SiOpenproject color="#fd5e42" />
           {productDetails.category}
         </p>
         <div>
           <span className={styles.price}>
-            <IoMdPricetag color="#fd5e42"/>
+            <IoMdPricetag color="#fd5e42" />
             {productDetails.price} $
           </span>
           <Link to="/products">
