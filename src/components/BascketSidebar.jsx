@@ -1,10 +1,15 @@
+import { useDispatch } from "react-redux";
 import { BsPatchCheck } from "react-icons/bs";
 import { FaHashtag } from "react-icons/fa";
 import { TbChecklist } from "react-icons/tb";
 
+import { checkout } from "../features/cart/cartSlice";
+
 import styles from "./BascketSidebar.module.css";
 
-function BascketSidebar({ state, clickHandler }) {
+function BascketSidebar({ state }) {
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.sidebar}>
       <div>
@@ -24,7 +29,7 @@ function BascketSidebar({ state, clickHandler }) {
       </div>
       <button
         onClick={() => {
-          clickHandler("CHECKOUT");
+          dispatch(checkout());
         }}
       >
         Checkout
