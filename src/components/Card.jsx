@@ -1,23 +1,26 @@
 import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { TbListDetails, TbShoppingBagCheck } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
 
 import { productQuantity, shortenText } from "../helpers/helper";
-// import { useCart } from "../context/CartContext";
+import {
+  addItem,
+  decrease,
+  increase,
+  removeItem,
+} from "../features/cart/cartSlice";
 
 import styles from "./Card.module.css";
 
 function Card({ data }) {
   const { id, title, image, price } = data;
 
-  // const [state, dispatch] = useCart();
+  const state = useSelector((store) => store.cart);
+  const dispatch = useDispatch();
+  console.log(state)
 
-  // const quantity = productQuantity(state, id);
-  const quantity = 0;
-
-  const clickHandler = (type) => {
-    // dispatch({ type, payload: data });
-  };
+  const quantity = productQuantity(state, id);
 
   return (
     <div className={styles.card}>
@@ -32,7 +35,7 @@ function Card({ data }) {
           {quantity === 1 && (
             <button
               onClick={() => {
-                clickHandler("REMOVE_ITEM");
+                dispatch(removeItem(data));
               }}
             >
               <MdDeleteOutline />
@@ -41,7 +44,7 @@ function Card({ data }) {
           {quantity > 1 && (
             <button
               onClick={() => {
-                clickHandler("DECREASE");
+                dispatch(decrease(data));
               }}
             >
               -
@@ -51,7 +54,7 @@ function Card({ data }) {
           {quantity === 0 ? (
             <button
               onClick={() => {
-                clickHandler("ADD_ITEM");
+                dispatch(addItem(data));
               }}
             >
               <TbShoppingBagCheck />
@@ -59,7 +62,7 @@ function Card({ data }) {
           ) : (
             <button
               onClick={() => {
-                clickHandler("INCREASE");
+                dispatch(increase(data));
               }}
             >
               +
